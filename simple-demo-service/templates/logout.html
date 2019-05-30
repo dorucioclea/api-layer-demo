@@ -13,9 +13,9 @@
     }
     document.cookie = name + "=" + (value || "")  + expires + "; path=/";
   }
-  setCookie('aether-jwt', '', 1)
-  setCookie('aether-realm', '', 1)
-  window.location.replace('http://aether.local/keycloak/auth/realms/{{tenant}}/protocol/openid-connect/logout?redirect_uri={{redirect}}');
+  setCookie('floramedia-jwt', '', 1)
+  setCookie('floramedia-realm', '', 1)
+  window.location.replace('http://floramedia.local/keycloak/auth/realms/{{tenant}}/protocol/openid-connect/logout?redirect_uri={{redirect}}');
 </script>
 </body>
 </html>

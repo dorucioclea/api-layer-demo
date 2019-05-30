@@ -27,7 +27,7 @@ show_help () {
     bash          : run bash
     eval          : eval shell command
 
-    register_app  : register aether app in Kong.
+    register_app  : register floramedia app in Kong.
 
     start         : start service webserver
     """

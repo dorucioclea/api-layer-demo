@@ -3,7 +3,7 @@ version: '2.1'
 networks:
   internal:
     external:
-      # if this isn't explicitly set it inherits from the containing folder name (aether or not)
+      # if this isn't explicitly set it inherits from the containing folder name (floramedia or not)
       name: ${PLATFORM_NAME}-internal
 
 volumes:
@@ -61,7 +61,7 @@ services:
     networks:
       - internal
     extra_hosts:
-      - "aether.local:127.0.0.1"
+      - "floramedia.local:127.0.0.1"
     command: ["kong", "start"]
 
   keycloak:

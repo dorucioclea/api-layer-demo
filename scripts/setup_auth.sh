@@ -22,7 +22,7 @@ set -Eeuo pipefail
 
 scripts/generate_env_vars.sh
 source ./scripts/setup_functions.sh
-source ./scripts/aether_functions.sh
+source ./scripts/floramedia_functions.sh
 
 echo ""
 echo "========================================================================="

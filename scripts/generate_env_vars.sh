@@ -69,7 +69,7 @@ function gen_env_file {
 # ------------------------------------------------------------------
 # Authorization & Authentication
 # ==================================================================
-PLATFORM_NAME=Plaether
+PLATFORM_NAME=floramediaplatform
 KEYCLOAK_GLOBAL_ADMIN=admin
 KEYCLOAK_GLOBAL_PASSWORD=password
 KEYCLOAK_PG_PASSWORD=$(gen_random_string)
@@ -82,8 +82,8 @@ KEYCLOAK_KONG_CLIENT=kong
 # ------------------------------------------------------------------
 # Routing
 # ==================================================================
-BASE_DOMAIN=aether.local
-BASE_HOST=http://aether.local
+BASE_DOMAIN=floramedia.local
+BASE_HOST=http://floramedia.local
 
 KEYCLOAK_INTERNAL=http://keycloak:8080
 KONG_INTERNAL=http://kong:8001

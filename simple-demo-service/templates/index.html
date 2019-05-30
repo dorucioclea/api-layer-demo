@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang='en'>
 <body>
-<script src='http://aether.local/keycloak/auth/js/keycloak.js'></script>
+<script src='http://floramedia.local/keycloak/auth/js/keycloak.js'></script>
 <script type='text/javascript'>
   'use strict'
   // MAKE THIS MORE SECURE.
@@ -18,8 +18,8 @@
   keycloak.init({ onLoad: 'login-required' })
     .error(function () { alert('error') })
     .success(function (authenticated) {
-      setCookie('aether-jwt', keycloak.token, 7)
-      setCookie('aether-realm', '{{tenant}}', 7)
+      setCookie('floramedia-jwt', keycloak.token, 7)
+      setCookie('floramedia-realm', '{{tenant}}', 7)
       window.location.replace('{{ redirect }}' );
     })
 </script>

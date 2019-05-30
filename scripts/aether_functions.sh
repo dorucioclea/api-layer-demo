@@ -23,14 +23,14 @@ set -Eeuo pipefail
 source .env
 
 LINE="__________________________________________________________________"
-AETHER_APPS=( kernel odk ui )
+FLORAMEDIA_APPS=( kernel odk ui )
 
-# Usage:    create_kc_aether_clients <realm-name>
-function create_kc_aether_clients {
+# Usage:    create_kc_floramedia_clients <realm-name>
+function create_kc_floramedia_clients {
     REALM=$1
 
-    echo "${LINE} Creating aether clients in realm [$REALM]..."
-    for CLIENT in "${AETHER_APPS[@]}"; do
+    echo "${LINE} Creating floramedia clients in realm [$REALM]..."
+    for CLIENT in "${FLORAMEDIA_APPS[@]}"; do
         CLIENT_URL="${BASE_HOST}/${REALM}/${CLIENT}/"
         REDIRECT_URI="${BASE_HOST}/${PUBLIC_REALM}/${CLIENT}/accounts/login/"
 
