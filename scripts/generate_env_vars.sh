@@ -49,7 +49,7 @@ function gen_env_file {
 # ------------------------------------------------------------------
 # Authorization & Authentication
 # ==================================================================
-PLATFORM_NAME=floramediaplatform
+PLATFORM_NAME=flora
 KEYCLOAK_GLOBAL_ADMIN=admin
 KEYCLOAK_GLOBAL_PASSWORD=password
 KEYCLOAK_PG_PASSWORD=$(gen_random_string)
