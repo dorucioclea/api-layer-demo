@@ -5,7 +5,7 @@ set -Eeuo pipefail
 DCA="docker-compose -f ./docker-compose.yml"
 $DCA kill
 
-containers=( db kong keycloak demo-service )
+containers=( db kong keycloak konga-database konga demo-service )
 for container in "${containers[@]}"
 do
     echo "_____________________________________________ Starting $container"
