@@ -1,12 +1,11 @@
 package = "kong-oidc-auth"
 version = "0.1-4"
 source = {
-   url = "git+https://github.com/eHealthAfrica/kong-oidc-auth.git"
+   url = "git+https://[REPO_HERE].git"
 }
 description = {
    summary = "OpenID Connect authentication with Kong gateway",
-   detailed = [[Please refer to the documentation associated here: https://github.com/eHealthAfrica/kong-oidc-auth ]],
-   homepage = "https://github.com/eHealthAfrica/kong-oidc-auth",
+   homepage = "",
    license = "Apache 2.0"
 }
 dependencies = {}

@@ -10,9 +10,7 @@ FROM kong:1.1.1-alpine
 #     cd $KONG_OIDC_HOME && \
 #     luarocks make *.rockspec && \
 #     apk del .build-deps
-
-
-ENV KONG_HOME /usr/local/share/lua/5.1/kong/plugins/kong-oidc-auth
-ADD ./kong-oidc-auth /usr/local/share/lua/5.1/kong/plugins/kong-oidc-auth
-RUN apk -U add git unzip gcc libc-dev openssl-dev
-RUN (cd $KONG_HOME/plugins/kong-oidc-auth/ && luarocks make *.rockspec)
+ADD ./oidc-plugin/kong-oidc-auth /usr/local/share/lua/5.1/kong/plugins/kong-oidc-auth
+RUN apk -U add --no-cache --virtual .build-deps git unzip gcc libc-dev openssl-dev
+RUN (cd /usr/local/share/lua/5.1/kong/plugins/kong-oidc-auth && luarocks make *.rockspec)
+RUN apk del .build-deps

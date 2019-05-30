@@ -12,7 +12,7 @@ In order to reliably implement multitenancy in a variety of solutions with flexi
 ![components](docs/component.png)
 
 ### User Flow
-![userflow](https://github.com/eHealthAfrica/api-layer-demo/blob/master/docs/user-flow.png)
+![userflow](docs/user-flow.png)
 
 
 ### Walkthrough
@@ -20,7 +20,7 @@ In order to reliably implement multitenancy in a variety of solutions with flexi
  - Add `floramedia.local` to your `/etc/hosts` file as an alias to localhost.
    -  (cookies don't like to use localhost, and we use them extensively)
  - Run `scripts/setup_auth.sh`
- - Once complete, `run scripts/start_auth.sh` to start services
+ - Once complete, `run scripts/start.sh` to start services
  - One complete, you can visit http://floramedia.local/keycloak/auth/
    - Administrative KC user is : `admin`:`password`
    - This user can modify all realms (dev, prod, master) from the master realm.

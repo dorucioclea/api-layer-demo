@@ -36,7 +36,7 @@ services:
   # ---------------------------------
 
   kong:
-    build: ./kong
+    build: ./api-auth/kong
     environment:
       KONG_DATABASE: postgres
       KONG_PG_HOST: db
