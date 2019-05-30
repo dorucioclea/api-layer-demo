@@ -126,7 +126,7 @@ services:
     networks:
       - internal
   konga:
-    build: ./konga
+    build: ./management/konga
     container_name: konga
     depends_on:
       konga-database:
