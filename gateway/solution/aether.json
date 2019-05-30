@@ -1,0 +1,8 @@
+{
+  "name": "flora",
+  "services": [
+    "kernel",
+    "ui",
+    "odk"
+  ]
+}

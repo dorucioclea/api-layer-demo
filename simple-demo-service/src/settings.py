@@ -5,7 +5,7 @@ def get(name, default=None):
     return os.environ.get(name.upper(), default)
 
 
-HOST = get('BASE_HOST', 'floramedia.local')
+HOST = get('BASE_HOST', 'floramedia.local:8070')
 APP_NAME = get('APP_NAME', 'demo-service')
 APP_PORT = int(get('APP_PORT', 3013))
 KONG_URL = get('KONG_INTERNAL')
