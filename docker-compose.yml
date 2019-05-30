@@ -10,6 +10,9 @@ volumes:
   database_data:
     external:
       name: ${PLATFORM_NAME}-database_data
+  konga_data:
+    external:
+      name: ${PLATFORM_NAME}-konga_data
 
 services:
 
@@ -88,6 +91,19 @@ services:
       - "floramedia.local:127.0.0.1"
     command: ["kong", "start"]
 
+  konga-database:
+    image: mongo:4.1.5
+    container_name: konga-database
+    volumes:
+      - konga_data:/data/db
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: echo 'db.stats().ok' | mongo localhost:27017/konga --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   keycloak:
     build: ./api-auth/keycloak
     environment:
@@ -109,13 +125,30 @@ services:
       - 8080:8080
     networks:
       - internal
+  konga:
+    build: ./konga
+    container_name: konga
+    depends_on:
+      konga-database:
+        condition: service_healthy
+    volumes:
+      - ./management/konga/user_seed.js:/app/user_seed.js:ro
+    ports:
+      - 1337:1337
+    environment:
+      DB_ADAPTER: mongo
+      DB_DATABASE: konga
+      DB_HOST: konga-database
+      KONGA_SEED_USER_DATA_SOURCE_FILE: /app/user_seed.js
+      NODE_ENV: production
+    restart: on-failure
 
   # ---------------------------------
   # Auth builder Container
   # ---------------------------------
 
   auth:
-    build: ./gateway
+    build: ./management/gateway
     environment:
       KEYCLOAK_GLOBAL_ADMIN: ${KEYCLOAK_GLOBAL_ADMIN}
       KEYCLOAK_GLOBAL_PASSWORD: ${KEYCLOAK_GLOBAL_PASSWORD}
