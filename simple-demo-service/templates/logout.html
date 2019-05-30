@@ -15,7 +15,7 @@
   }
   setCookie('floramedia-jwt', '', 1)
   setCookie('floramedia-realm', '', 1)
-  window.location.replace('http://floramedia.local:8070/keycloak/auth/realms/{{tenant}}/protocol/openid-connect/logout?redirect_uri={{redirect}}');
+  window.location.replace('http://floramedia.local/keycloak/auth/realms/{{tenant}}/protocol/openid-connect/logout?redirect_uri={{redirect}}');
 </script>
 </body>
 </html>
