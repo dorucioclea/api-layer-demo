@@ -17,7 +17,7 @@ fi
 
 if [[ $(docker ps -a -q | wc -c) -ne 0 ]]; then
     echo "Removing Docker containers..."
-    docker kill $(docker ps -aq)
+    docker rm $(docker ps -aq)
     echo "Done."
 else
     echo "No Docker containers found to remove."
@@ -25,7 +25,7 @@ fi
 
 if [[ $(docker images -q | wc -c) -ne 0 ]]; then
     echo "Removing Docker images..."
-    docker kill $(docker images -q)
+    docker rmi $(docker images -q)
     echo "Done."
 else
     echo "No Docker images found to remove."
