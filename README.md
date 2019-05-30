@@ -64,3 +64,6 @@ Any service you want to proxy must be available from inside docker at the url pr
 
    
  
+Gotchas: 
+
+Remove port 80 occup. sudo launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist
