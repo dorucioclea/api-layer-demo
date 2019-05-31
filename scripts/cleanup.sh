@@ -6,7 +6,7 @@ LINE="__________________________________________________________________"
 
 echo "${LINE} Starting docker images cleanup..."
 set -Eeuo pipefail
-# kills = $(docker ps -q | wc -c)
+
 if [[ $(docker ps -q | wc -c) -ne 0 ]]; then
     echo "Killing docker containers..."
     docker kill $(docker ps -q)
@@ -25,7 +25,7 @@ fi
 
 if [[ $(docker images -q | wc -c) -ne 0 ]]; then
     echo "Removing Docker images..."
-    docker rmi $(docker images -q)
+    docker rmi --force $(docker images -q)
     echo "Done."
 else
     echo "No Docker images found to remove."
