@@ -44,6 +44,7 @@ if __name__ == '__main__':
     services = [
         ('keycloak', KEYCLOAK_INTERNAL),
         ('minio', MINIO_INTERNAL),
+        ('konga', KONGA_INTERNAL)
     ]
 
     for name, url in services:
