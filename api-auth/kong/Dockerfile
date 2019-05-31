@@ -10,7 +10,9 @@ FROM kong:latest
 #     cd $KONG_OIDC_HOME && \
 #     luarocks make *.rockspec && \
 #     apk del .build-deps
-ADD ./oidc-plugin/kong-oidc-auth /usr/local/share/lua/5.1/kong/plugins/kong-oidc-auth
+ADD ./oidc-plugin /usr/local/share/lua/5.1/kong/plugins/kong-oidc-auth
+ADD ./error-logs /usr/local/share/lua/5.1/kong/plugins/nginx-error-logs
 RUN apk -U add --no-cache --virtual .build-deps git unzip gcc libc-dev openssl-dev
 RUN (cd /usr/local/share/lua/5.1/kong/plugins/kong-oidc-auth && luarocks make *.rockspec)
+RUN (cd /usr/local/share/lua/5.1/kong/plugins/nginx-error-logs && luarocks make *.rockspec)
 RUN apk del .build-deps
