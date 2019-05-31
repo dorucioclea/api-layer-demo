@@ -149,7 +149,8 @@ services:
       PLATFORM_NAME: ${PLATFORM_NAME}
       KEYCLOAK_INTERNAL: ${KEYCLOAK_INTERNAL}
       KONG_INTERNAL: ${KONG_INTERNAL}
-      MINIO_INTERNAL: ${MINIO_INTERNAL-http://minio.local}
+      MINIO_INTERNAL: ${MINIO_INTERNAL}
+      KONGA_INTERNAL: ${KONGA_INTERNAL}
     volumes:
       - ./api-auth/service:/code/service
       - ./api-auth/solution:/code/solution
