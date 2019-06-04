@@ -16,6 +16,7 @@ from settings import (
 
     KONG_URL,
     KONG_OIDC_PLUGIN,
+    KONG_JWT_PLUGIN,
 
     KC_URL,
     KC_ADMIN_USER,
@@ -31,6 +32,13 @@ from settings import (
 EPT_OIDC = 'oidc'
 EPT_PUBLIC = 'public'
 
+def _get_service_jwt_validate_payload(service_name, realm):
+     # must be the public url
+    KEYCLOAK_URL = f'{BASE_HOST}/keycloak/auth/realms'
+    return {
+        'name': KONG_JWT_PLUGIN,
+        'config.allowed_iss': f'{KEYCLOAK_URL}/{realm}'
+    }
 
 def _get_service_oidc_payload(service_name, realm):
     client_id = KEYCLOAK_KONG_CLIENT
@@ -98,6 +106,7 @@ def add_service(config, realm):
 
     # OIDC plugin settings (same for all OIDC endpoints)
     oidc_data = _get_service_oidc_payload(name, realm)
+    jwt_data = _get_service_jwt_validate_payload(name, realm)
 
     ep_types = [EPT_PUBLIC, EPT_OIDC]
     for ep_type in ep_types:
@@ -141,6 +150,13 @@ def add_service(config, realm):
                         method='post',
                         url=f'{KONG_URL}/routes/{protected_route_id}/plugins',
                         data=_oidc_config,
+                    )
+
+                    ## Register also the jwt plugin.
+                    request(
+                        method='post',
+                        url=f'{KONG_URL}/routes/{protected_route_id}/plugins',
+                        data=jwt_data,
                     )
 
                 print(f'    + Added route {ep_url} >> {path}')
