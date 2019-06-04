@@ -1,4 +1,4 @@
-FROM kong:latest
+FROM kong:1.1.1-alpine
 
 # Kong install dir
 # ENV KONG_OIDC_HOME /usr/local/share/lua/5.1/kong/plugins/kong-oidc-auth
@@ -15,4 +15,5 @@ ADD ./error-logs /usr/local/share/lua/5.1/kong/plugins/nginx-error-logs
 RUN apk -U add --no-cache --virtual .build-deps git unzip gcc libc-dev openssl-dev
 RUN (cd /usr/local/share/lua/5.1/kong/plugins/kong-oidc-auth && luarocks make *.rockspec)
 RUN (cd /usr/local/share/lua/5.1/kong/plugins/nginx-error-logs && luarocks make *.rockspec)
+RUN luarocks install kong-plugin-jwt-keycloak
 RUN apk del .build-deps
