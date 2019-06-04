@@ -49,7 +49,7 @@ function gen_env_file {
 # ------------------------------------------------------------------
 # Authorization & Authentication
 # ==================================================================
-PLATFORM_NAME=floramediaplatform
+PLATFORM_NAME=flora
 KEYCLOAK_GLOBAL_ADMIN=admin
 KEYCLOAK_GLOBAL_PASSWORD=password
 KEYCLOAK_PG_PASSWORD=$(gen_random_string)
@@ -67,6 +67,8 @@ BASE_HOST=http://floramedia.local
 
 KEYCLOAK_INTERNAL=http://keycloak:8080
 KONG_INTERNAL=http://kong:8001
+MINIO_INTERNAL=http://minio:8001
+KONGA_INTERNAL=http://konga:1337
 
 NETWORK_SUBNET=192.168.2.0/24
 NETWORK_GATEWAY=192.168.2.1

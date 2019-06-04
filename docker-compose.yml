@@ -10,6 +10,9 @@ volumes:
   database_data:
     external:
       name: ${PLATFORM_NAME}-database_data
+  konga_data:
+    external:
+      name: ${PLATFORM_NAME}-konga_data
 
 services:
 
@@ -36,8 +39,16 @@ services:
   # ---------------------------------
 
   kong:
-    build: ./kong
+    container_name: kong
+    build: ./api-auth/kong
     environment:
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+
+      KONG_ADMIN_LISTEN_SSL: 0.0.0.0:8443
+      # # allow large headers
       KONG_DATABASE: postgres
       KONG_PG_HOST: db
       KONG_PG_DATABASE: kong
@@ -48,21 +59,41 @@ services:
       KONG_PROXY_LISTEN: 0.0.0.0:80
       KONG_LOG_LEVEL: debug
 
-      KONG_PLUGINS: bundled,kong-oidc-auth
+      KONG_PLUGINS: bundled,kong-oidc-auth,jwt-keycloak
       # allow large headers
       KONG_NGINX_PROXY_LARGE_CLIENT_HEADER_BUFFERS: "16 128k"
 
     depends_on:
       db:
         condition: service_healthy
+    healthcheck:
+      test: kong health
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - 80:80
-      # - 8001:8001  # TODO Remove
+      # - 8000:8000
+      - 8001:8001
+      - 8443:8443
     networks:
       - internal
     extra_hosts:
       - "floramedia.local:127.0.0.1"
     command: ["kong", "start"]
+
+  konga-database:
+    image: mongo:4.1.5
+    container_name: konga-database
+    volumes:
+      - konga_data:/data/db
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: echo 'db.stats().ok' | mongo localhost:27017/konga --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   keycloak:
     build: ./api-auth/keycloak
@@ -85,13 +116,30 @@ services:
       - 8080:8080
     networks:
       - internal
+  konga:
+    build: ./management/dashboard/konga
+    container_name: konga
+    depends_on:
+      konga-database:
+        condition: service_healthy
+    volumes:
+      - ./management/dashboard/konga/user_seed.js:/app/user_seed.js:ro
+    ports:
+      - 1337:1337
+    environment:
+      DB_ADAPTER: mongo
+      DB_DATABASE: konga
+      DB_HOST: konga-database
+      KONGA_SEED_USER_DATA_SOURCE_FILE: /app/user_seed.js
+      NODE_ENV: production
+    restart: on-failure
 
   # ---------------------------------
   # Auth builder Container
   # ---------------------------------
 
   auth:
-    image: ehealthafrica/gateway-manager:latest
+    build: ./management/gateway
     environment:
       KEYCLOAK_GLOBAL_ADMIN: ${KEYCLOAK_GLOBAL_ADMIN}
       KEYCLOAK_GLOBAL_PASSWORD: ${KEYCLOAK_GLOBAL_PASSWORD}
@@ -101,7 +149,8 @@ services:
       PLATFORM_NAME: ${PLATFORM_NAME}
       KEYCLOAK_INTERNAL: ${KEYCLOAK_INTERNAL}
       KONG_INTERNAL: ${KONG_INTERNAL}
-      MINIO_INTERNAL: ${MINIO_INTERNAL-http://minio.local}
+      MINIO_INTERNAL: ${MINIO_INTERNAL}
+      KONGA_INTERNAL: ${KONGA_INTERNAL}
     volumes:
       - ./api-auth/service:/code/service
       - ./api-auth/solution:/code/solution

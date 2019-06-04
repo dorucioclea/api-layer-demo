@@ -76,7 +76,7 @@ start_keycloak
 connect_to_keycloak
 
 echo "${LINE} Creating initial realms in keycloak..."
-REALMS=( dev prod )
+REALMS=( dev ) ##DORU: Simplify only for dev environment. put prod back in.
 for REALM in "${REALMS[@]}"; do
     $AUTH_CMD add_realm         $REALM
     $AUTH_CMD add_oidc_client   $REALM
