@@ -31,7 +31,6 @@ def public_route(page=None):
 # User Route
 # user group should be in the token // app handles this matching
 
-
 @app.route(f"/")
 @app.route(f"/protected/")
 @app.route(f"/protected/user")
@@ -45,7 +44,7 @@ def user_routes(realm, roles):
 # admin group should be in the token // app handles this matching
 
 
-@app.route(f"/protected/admin")
+@app.route(f"/protected/admin", methods = ['POST', 'GET'])
 @require_role(['admin'])
 @get_realm
 def admin_routes(realm, roles):

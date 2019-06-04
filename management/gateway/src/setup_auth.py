@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from helpers import request
-from settings import BASE_HOST, KONG_URL, KEYCLOAK_INTERNAL, MINIO_INTERNAL
+from settings import BASE_HOST, KONG_URL, KEYCLOAK_INTERNAL, MINIO_INTERNAL, KONGA_INTERNAL
 
 
 def register_app(name, url):

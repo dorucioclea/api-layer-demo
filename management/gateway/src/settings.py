@@ -30,6 +30,7 @@ KEYCLOAK_KONG_CLIENT = get_env('KEYCLOAK_KONG_CLIENT', 'kong')
 PUBLIC_REALM = get_env('PUBLIC_REALM', '-')
 KONG_URL = get_env('KONG_INTERNAL')
 KONG_OIDC_PLUGIN = 'kong-oidc-auth'
+KONG_JWT_PLUGIN = 'jwt-keycloak'
 
 REALMS_PATH = '/code/realm'
 SERVICES_PATH = '/code/service'
@@ -37,3 +38,4 @@ SOLUTIONS_PATH = '/code/solution'
 
 # Minio
 MINIO_INTERNAL = get_env('MINIO_INTERNAL')
+KONGA_INTERNAL = get_env('KONGA_INTERNAL')
