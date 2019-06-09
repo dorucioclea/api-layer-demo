@@ -1,74 +1,100 @@
-#!/usr/bin/env bash
-#
 set -Eeuo pipefail
 
 function show_help {
     echo """
     Commands
     ----------------------------------------------------------------------------
-    bash             : run bash
-    
 
-    eval             : eval shell command
+    help:
+        Shows this message.
 
-    
-    setup_auth       : register Keycloak & Minio in Kong.
+    bash:
+        Run bash.
 
-    
-    add_realm        : adds a new realm using a default realm template
+    eval:
+        Eval shell command.
 
-                       usage: add_realm {realm} {description (optional)}
+    decode_token:
+        Decodes a JSON Web Token (JWT).
 
-    
-    add_user         : adds a user to an existing realm.
-
-                       usage: add_user {realm} {username} 
-                              {*password} {*is_administrator}
-                              {*email} {*reset_password_on_login}
-
-    
-    add_oidc_client  : adds the default kong client to a realm. Required for
-                       any realm that will use OIDC for authentication.
-
-                       usage: add_oidc_client <realm>
+        Usage: decode_token {token}
 
 
-    add_flora_client: adds the default flora client to a realm. Allows token generation
+    Keycloak & Kong
+    ----------------------------------------------------------------------------
 
-                       usage: add_flora_client <realm>
+    setup_auth:
+        Register Keycloak in Kong.
+
+        Shortcut of: register_app keycloak {keycloak-internal-url}
 
 
-    add_service      : adds a service to an existing realm in Kong,
-                       using the service definition in /service directory.
+    register_app:
+        Register App in Kong.
 
-                       usage: add_service {service} {realm}
+        Usage: register_app {app-name} {app-internal-url}
 
-    
-    remove_service   : removes a service from an existing realm in Kong,
-                       using the service definition in /service directory.
 
-                       usage: remove_service {service} {realm}
+    add_realm:
+        Adds a new realm using a default realm template.
 
-    
-    add_solution     : adds a package of services to an existing realm in Kong,
-                       using the solution definition in /solution directory.
+        Usage: add_realm {realm} {description (optional)} {login theme (optional)}
 
-                       usage: add_solution {solution} {realm}
 
-    
-    remove_solution  : removes a package of services from an existing realm in Kong,
-                       using the solution definition in /solution directory.
+    add_user:
+        Adds a user to an existing realm.
 
-                       usage: remove_solution {solution} {realm}
+        Usage: add_user {realm} {username}
+                        {*password} {*is_administrator}
+                        {*email} {*reset_password_on_login}
 
-    
-    keycloak_ready   : checks the keycloak connection. Returns status 0 on success.
 
-                       usage: keycloak_ready
-    
-    decode_token     : decodes a JSON Web Token (JWT)
+    add_confidential_client :
+        Adds a confidential client to a realm.
+        Required for any realm that will use OIDC for authentication.
 
-                       usage: decode_token {token}
+        Usage: add_confidential_client {realm} {client-name}
+
+
+    add_public_client:
+        Adds a public client client to a realm.
+        Allows token generation.
+
+        Usage: add_public_client {realm} {client-name}
+
+
+    add_service:
+        Adds a service to an existing realm in Kong,
+        using the service definition in /service directory.
+
+        Usage: add_service {service} {realm} {oidc-client}
+
+
+    remove_service:
+        Removes a service from an existing realm in Kong,
+        using the service definition in /service directory.
+
+        Usage: remove_service {service} {realm}
+
+
+    add_solution:
+        Adds a package of services to an existing realm in Kong,
+        using the solution definition in /solution directory.
+
+        Usage: add_solution {solution} {realm} {oidc-client}
+
+
+    remove_solution:
+        Removes a package of services from an existing realm in Kong,
+        using the solution definition in /solution directory.
+
+        Usage: remove_solution {solution} {realm}
+
+
+    keycloak_ready:
+        Checks the keycloak connection. Returns status 0 on success.
+
+        Usage: keycloak_ready
     """
 }
 
@@ -81,8 +107,16 @@ case "$1" in
         eval "${@:2}"
     ;;
 
+    decode_token )
+        python /code/src/decode_token.py "${@:2}"
+    ;;
+
     setup_auth )
-        python /code/src/setup_auth.py
+        python /code/src/register_app.py keycloak $KEYCLOAK_INTERNAL
+    ;;
+
+    register_app )
+        python /code/src/register_app.py "${@:2}"
     ;;
 
     add_realm )
@@ -93,12 +127,12 @@ case "$1" in
         python /code/src/manage_realm.py ADD_USER "${@:2}"
     ;;
 
-    add_oidc_client )
-        python /code/src/manage_realm.py ADD_OIDC_CLIENT "${@:2}"
+    add_confidential_client )
+        python /code/src/manage_realm.py ADD_CONFIDENTIAL_CLIENT "${@:2}"
     ;;
 
-    add_flora_client )
-        python /code/src/manage_realm.py ADD_FLORA_CLIENT "${@:2}"
+    add_public_client )
+        python /code/src/manage_realm.py ADD_PUBLIC_CLIENT "${@:2}"
     ;;
 
     add_service )
@@ -119,10 +153,6 @@ case "$1" in
 
     keycloak_ready )
         python /code/src/manage_realm.py KEYCLOAK_READY
-    ;;
-
-    decode_token )
-        python /code/src/decode_token.py "${@:2}"
     ;;
 
     help )
