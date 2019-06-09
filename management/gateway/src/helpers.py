@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import json
 import requests
 from requests.exceptions import HTTPError
@@ -7,9 +5,10 @@ from requests.exceptions import HTTPError
 from settings import DEBUG
 
 
-def request(method, url, data={}):
+def request(*args, **kwargs):
     try:
-        res = requests.request(method=method, url=url, data=data, verify=False)
+        # don't verify SSL certificate internally
+        res = requests.request(*args, **kwargs, verify=False)
         res.raise_for_status()
         if res.status_code != 204:
             data = res.json()
@@ -18,6 +17,15 @@ def request(method, url, data={}):
         return None
     except HTTPError as he:
         __handle_exception(he, res)
+    except Exception as e:
+        __handle_exception(e)
+
+
+def load_json_file(json_file_path):
+    try:
+        with open(json_file_path) as _f:
+            data = json.load(_f)
+        return data
     except Exception as e:
         __handle_exception(e)
 
