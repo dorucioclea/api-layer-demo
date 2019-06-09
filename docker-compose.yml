@@ -117,13 +117,13 @@ services:
     networks:
       - internal
   konga:
-    build: ./management/dashboard/konga
+    build: ./provisioning/dashboard/konga
     container_name: konga
     depends_on:
       konga-database:
         condition: service_healthy
     volumes:
-      - ./management/dashboard/konga/user_seed.js:/app/user_seed.js:ro
+      - ./provisioning/dashboard/konga/user_seed.js:/app/user_seed.js:ro
     ports:
       - 1337:1337
     environment:
@@ -141,7 +141,7 @@ services:
   # ---------------------------------
 
   auth:
-    build: ./management/gateway
+    build: ./provisioning/gateway
     environment:
       KEYCLOAK_GLOBAL_ADMIN: ${KEYCLOAK_GLOBAL_ADMIN}
       KEYCLOAK_GLOBAL_PASSWORD: ${KEYCLOAK_GLOBAL_PASSWORD}
