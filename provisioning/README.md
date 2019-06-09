@@ -18,8 +18,7 @@ In order to reliably implement multitenancy in a variety of solutions with flexi
 ### Walkthrough
 
  - Add `floramedia.local` to your `/etc/hosts` file as an alias to localhost.
-   -  (cookies don't like to use localhost, and we use them extensively)
- - Run `scripts/setup_auth.sh`
+ - Run `./provisioning/scripts/setup_auth.sh`
  - Once complete, `run scripts/start.sh` to start services
  - One complete, you can visit http://floramedia.local/keycloak/auth/
    - Administrative KC user is : `admin`:`password`
