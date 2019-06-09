@@ -133,6 +133,8 @@ services:
       KONGA_SEED_USER_DATA_SOURCE_FILE: /app/user_seed.js
       NODE_ENV: production
     restart: on-failure
+    networks:
+      - internal
 
   # ---------------------------------
   # Auth builder Container

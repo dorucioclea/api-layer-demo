@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "2375c4ca-419b-4dea-9227-cfb4c521fc75",
+		"name": "api",
+		"description": "Few methods to describe how the API can be accessed. Please also read the README file to get more information",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://floramedia.local/dev/flora/protected/admin",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ1RldVam1PZHU4WmRMSVNhNVl6bkxnSHhXdjdoWFB0WXNpQklGaXA2SzNnIn0.eyJqdGkiOiIwMDNiMTJmZS04OGExLTQ5ODMtOTgwMS1mYTY4ODI4YzIzZjMiLCJleHAiOjE1NjAwOTQ4MjYsIm5iZiI6MCwiaWF0IjoxNTYwMDk0NTI2LCJpc3MiOiJodHRwOi8vZmxvcmFtZWRpYS5sb2NhbC9rZXljbG9hay9hdXRoL3JlYWxtcy9kZXYiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiOWNkMDI5MWUtYzExNi00YTMzLTk2ZTMtNmIzODA5ZTQ3ZWIxIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoia29uZyIsImF1dGhfdGltZSI6MCwic2Vzc2lvbl9zdGF0ZSI6ImVhZjY5MmMwLTE3Y2EtNDkxZC04N2U1LTFlZTVjZTg1MWFiMSIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJhZG1pbiIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJncm91cHMiOlsib2ZmbGluZV9hY2Nlc3MiLCJhZG1pbiIsInVtYV9hdXRob3JpemF0aW9uIl0sInByZWZlcnJlZF91c2VybmFtZSI6InVzZXIifQ.RRUgvUsPc9SeFNN7T-UUKufa7fGH5_UsnVxZMeVUGAjoqfKzHfkynGj2I8QBhCWzsbQoZTFyt8FaT0OSUJb3XdX0wFnrwD7Un8eiWe-XyXf6S8Tkd1PXKfgpuOUhaKqEcYxE0X7PLC6m28R3i3a6F4SsOc7iw56Vfy8G8wVBOgEVSvPLXkwkA7R8i2nayrkqjSPFSL8DUfVhBCayjsQGGX0n3ZBt6n3qXV0B5Y-Go9KJrETW89KYtjJGcgS2JvHA8MLUkJSVWF_ma4vXedhDnNGYm-UN8QNGIIMXMjTRAEqtBoxFfDRwoK0gjPwDlKQxAXv2nK9iVrNDokzSCsoM8w",
+						"type": "text"
+					},
+					{
+						"key": "client_id",
+						"value": "kong",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "client_secret",
+						"value": "6b8e4699-f4fe-4c54-9ca7-e24e60bd2ce7",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://floramedia.local/dev/flora/protected/admin?",
+					"protocol": "http",
+					"host": [
+						"floramedia",
+						"local"
+					],
+					"path": [
+						"dev",
+						"flora",
+						"protected",
+						"admin"
+					],
+					"query": [
+						{
+							"key": "Authorization",
+							"value": "Bearer ",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Example of protected URL "
+			},
+			"response": []
+		},
+		{
+			"name": "http://floramedia.local/keycloak/auth/realms/dev/protocol/openid-connect/token?Content-Type=application/x-www-form-urlencoded",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "kong",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "c7b51f01-6f31-4682-9491-0784c4dec9a5",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://floramedia.local/keycloak/auth/realms/dev/protocol/openid-connect/token?Content-Type=application/x-www-form-urlencoded&=",
+					"protocol": "http",
+					"host": [
+						"floramedia",
+						"local"
+					],
+					"path": [
+						"keycloak",
+						"auth",
+						"realms",
+						"dev",
+						"protocol",
+						"openid-connect",
+						"token"
+					],
+					"query": [
+						{
+							"key": "Content-Type",
+							"value": "application/x-www-form-urlencoded"
+						},
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				},
+				"description": "Example of the /authorize call. Note that you must change the client secret with one fetched from keycloak."
+			},
+			"response": []
+		},
+		{
+			"name": "http://floramedia.local/dev/demo/public/my-page",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://floramedia.local/dev/demo/public/my-page",
+					"protocol": "http",
+					"host": [
+						"floramedia",
+						"local"
+					],
+					"path": [
+						"dev",
+						"demo",
+						"public",
+						"my-page"
+					]
+				},
+				"description": "Example of public/unprotected page access."
+			},
+			"response": []
+		}
+	]
+}
