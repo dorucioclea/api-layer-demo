@@ -64,6 +64,9 @@ docker-compose run kong kong migrations up
 echo ""
 start_kong
 
+echo "${LINE} Registering konga in kong..."
+$AUTH_CMD setup_konga
+echo ""
 
 echo "${LINE} Registering keycloak in kong..."
 $AUTH_CMD setup_auth
