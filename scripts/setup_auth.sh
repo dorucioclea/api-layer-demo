@@ -54,7 +54,6 @@ echo ""
 echo "${LINE} Preparing kong..."
 #
 # https://docs.konghq.com/install/docker/
-#
 # Note for Kong < 0.15: with Kong versions below 0.15 (up to 0.14),
 # use the up sub-command instead of bootstrap.
 # Also note that with Kong < 0.15, migrations should never be run concurrently;
@@ -78,14 +77,14 @@ connect_to_keycloak
 echo "${LINE} Creating initial realms in keycloak..."
 REALMS=( dev ) ##DORU: Simplify only for dev environment. put prod back in.
 for REALM in "${REALMS[@]}"; do
-    $AUTH_CMD add_realm         $REALM
-    $AUTH_CMD add_oidc_client   $REALM
-    $AUTH_CMD add_user          $REALM \
-                                $KEYCLOAK_INITIAL_USER_USERNAME \
-                                $KEYCLOAK_INITIAL_USER_PASSWORD            
+    $AUTH_CMD add_realm                 $REALM
+    $AUTH_CMD add_confidential_client   $REALM
+    $AUTH_CMD add_user                  $REALM \
+                                        $KEYCLOAK_INITIAL_USER_USERNAME \
+                                        $KEYCLOAK_INITIAL_USER_PASSWORD            
 
-    echo "${LINE} Adding [demo] solution in kong..."
-    $AUTH_CMD add_solution demo $REALM
+    echo "${LINE} Adding [flora] solution in kong..."
+    $AUTH_CMD add_solution flora $REALM
 done
 echo ""
 

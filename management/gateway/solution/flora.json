@@ -1,6 +1,6 @@
 {
-  "name": "demo",
+  "name": "flora",
   "services": [
-    "demo"
+    "flora"
   ]
 }

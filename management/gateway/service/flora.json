@@ -1,5 +1,5 @@
 {
-    "name": "demo",
+    "name": "flora",
     "host": "http://demo-service:3013",
     "oidc_endpoints": [
       {
@@ -13,7 +13,8 @@
         {
             "jwtbase": "base",
             "url": "/",
-            "strip_path": "true"
+            "strip_path": "true",
+            "issuer": ""
           }
     ],
     "public_endpoints": [

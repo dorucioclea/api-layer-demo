@@ -29,6 +29,11 @@ function show_help {
         Shortcut of: register_app keycloak {keycloak-internal-url}
 
 
+    setup_konga:
+        Register Konga in Kong.
+
+        Shortcut of: register_app konga {konga-internal-url}
+
     register_app:
         Register App in Kong.
 
@@ -113,6 +118,10 @@ case "$1" in
 
     setup_auth )
         python /code/src/register_app.py keycloak $KEYCLOAK_INTERNAL
+    ;;
+
+    setup_konga )
+        python /code/src/register_app.py konga $KONGA_INTERNAL
     ;;
 
     register_app )
