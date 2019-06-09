@@ -66,7 +66,7 @@ echo ""
 start_kong
 
 
-echo "${LINE} Registering keycloak and minio in kong..."
+echo "${LINE} Registering keycloak in kong..."
 $AUTH_CMD setup_auth
 echo ""
 
