@@ -43,12 +43,32 @@ function start_db {
     echo ""
 }
 
+function start_konga_db {
+    echo "${LINE} Starting konga database server..."
+    docker-compose up -d db
+    until docker-compose ps -q konga-database >/dev/null; do
+        >&2 echo "Waiting for konga database..."
+        sleep 2
+    done
+    echo ""
+}
+
 
 function start_kong {
     echo "${LINE} Starting kong server..."
     docker-compose up -d kong
     until docker-compose ps -q kong >/dev/null; do
         >&2 echo "Waiting for kong..."
+        sleep 2
+    done
+    echo ""
+}
+
+function start_konga {
+    echo "${LINE} Starting konga server..."
+    docker-compose up -d konga
+    until docker-compose ps -q konga >/dev/null; do
+        >&2 echo "Waiting for konga..."
         sleep 2
     done
     echo ""
