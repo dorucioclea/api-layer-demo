@@ -3,5 +3,8 @@
 #                              Requirements                                             #
 #                                                                                       #
 #########################################################################################
-python-keycloak>=0.17
+
+passlib
+pure-sasl
 pyjwt
+python-keycloak>=0.17
