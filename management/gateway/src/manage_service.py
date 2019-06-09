@@ -115,7 +115,7 @@ def add_service(config, realm):
         endpoints = config.get(f'{ep_type}_endpoints', [])
         for ep in endpoints:
             ep_name = ep['name']
-            ep_url = ep['url']
+            ep_url = fill_template(ep.get('url'), context)
             service_name = f'{name}_{ep_type}_{ep_name}'
             data = {
                 'name': service_name,
