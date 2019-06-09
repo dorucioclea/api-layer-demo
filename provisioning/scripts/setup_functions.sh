@@ -27,7 +27,7 @@ function create_docker_assets {
         echo "$DATABASE_NAME volume is ready."
     }
 
-    ./scripts/generate_env_vars.sh
+    ./provisioning/scripts/generate_env_vars.sh
 
     echo ""
 }

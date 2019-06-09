@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-scripts/generate_env_vars.sh
-source ./scripts/setup_functions.sh
-source ./scripts/floramedia_functions.sh
+provisioning/scripts/generate_env_vars.sh
+source ./provisioning/scripts/setup_functions.sh
+source ./provisioning/scripts/floramedia_functions.sh
 
 echo ""
 echo "========================================================================="
@@ -36,7 +36,7 @@ docker-compose pull db auth
 echo ""
 
 start_db
-start_konga_db
+# start_konga_db
 
 # Initialize the kong & keycloak databases in the postgres instance
 
@@ -65,14 +65,14 @@ docker-compose run kong kong migrations up
 echo ""
 start_kong
 
-echo "${LINE} Preparing konga..."
-echo ""
-start_konga
+# echo "${LINE} Preparing konga..."
+# echo ""
+# start_konga
 
-echo "${LINE} Registering konga in kong..."
-echo ${KONGA_INTERNAL}
-$AUTH_CMD setup_konga
-echo ""
+# echo "${LINE} Registering konga in kong..."
+# echo ${KONGA_INTERNAL}
+# $AUTH_CMD setup_konga
+# echo ""
 
 echo "${LINE} Registering keycloak in kong..."
 $AUTH_CMD setup_auth

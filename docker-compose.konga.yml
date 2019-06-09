@@ -1,0 +1,36 @@
+
+version: '2.1'
+
+konga-database:
+    image: mongo:4.1.5
+    container_name: konga-database
+    volumes:
+      - konga_data:/data/db
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: echo 'db.stats().ok' | mongo localhost:27017/konga --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+konga:
+    build: ./provisioning/dashboard/konga
+    container_name: konga
+    depends_on:
+      konga-database:
+        condition: service_healthy
+    volumes:
+      - ./provisioning/dashboard/konga/user_seed.js:/app/user_seed.js:ro
+    ports:
+      - 1337:1337
+    environment:
+      DB_ADAPTER: mongo
+      DB_DATABASE: konga
+      DB_HOST: konga-database
+      KONGA_SEED_USER_DATA_SOURCE_FILE: /app/user_seed.js
+      NODE_ENV: production
+    restart: on-failure
+    networks:
+      - internal
+
