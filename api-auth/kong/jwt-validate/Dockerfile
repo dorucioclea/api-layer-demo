@@ -9,7 +9,7 @@ COPY ./*.rockspec /tmp
 COPY ./LICENSE /tmp/LICENSE
 COPY ./src /tmp/src
 ARG PLUGIN_VERSION
-RUN luarocks make && luarocks pack kong-plugin-jwt-keycloak ${PLUGIN_VERSION}
+RUN luarocks make && luarocks pack jwt-keycloak ${PLUGIN_VERSION}
 
 ## Create Image
 FROM kong:${KONG_VERSION}
@@ -19,4 +19,4 @@ ENV KONG_PLUGINS="bundled,jwt-keycloak"
 COPY --from=builder /tmp/*.rock /tmp/
 
 ARG PLUGIN_VERSION
-RUN luarocks install /tmp/kong-plugin-jwt-keycloak-${PLUGIN_VERSION}.all.rock && rm /tmp/*
+RUN luarocks install /tmp/jwt-keycloak-${PLUGIN_VERSION}.all.rock && rm /tmp/*
