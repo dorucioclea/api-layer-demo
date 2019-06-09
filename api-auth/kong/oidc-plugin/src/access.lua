@@ -87,23 +87,25 @@ end
 function redirect_to_auth( conf, callback_url )
     -- Track the endpoint they wanted access to so we can transparently redirect them back
     if type(ngx.header["Set-Cookie"]) == "table" then
-	ngx.header["Set-Cookie"] = { "EOAuthRedirectBack=" .. ngx.var.request_uri .. ";Path=/;Expires=" .. ngx.cookie_time(ngx.time() + 120) .. ";Max-Age=120;HttpOnly", unpack(ngx.header["Set-Cookie"]) }
+	    ngx.header["Set-Cookie"] = { "EOAuthRedirectBack=" .. ngx.var.request_uri .. ";Path=/;Expires=" .. ngx.cookie_time(ngx.time() + 120) .. ";Max-Age=120;HttpOnly", unpack(ngx.header["Set-Cookie"]) }
     else
-	ngx.header["Set-Cookie"] = { "EOAuthRedirectBack=" .. ngx.var.request_uri .. ";Path=/;Expires=" .. ngx.cookie_time(ngx.time() + 120) .. ";Max-Age=120;HttpOnly", ngx.header["Set-Cookie"] }
+	    ngx.header["Set-Cookie"] = { "EOAuthRedirectBack=" .. ngx.var.request_uri .. ";Path=/;Expires=" .. ngx.cookie_time(ngx.time() + 120) .. ";Max-Age=120;HttpOnly", ngx.header["Set-Cookie"] }
     end
-	
-    -- Redirect to the /oauth endpoint
-    -- local oauth_authorize = nil
-    -- if(conf.pf_idp_adapter_id == "") then --Standard Auth URL(Something other than ping)
-    --    oauth_authorize = conf.authorize_url .. "?response_type=code&client_id=" .. conf.client_id .. "&redirect_uri=" .. callback_url .. "&scope=" .. conf.scope
-    -- else --Ping Federate Auth URL
-    --      oauth_authorize = conf.authorize_url .. "?pfidpadapterid=" .. conf.pf_idp_adapter_id .. "&response_type=code&client_id=" .. conf.client_id .. "&redirect_uri=" .. callback_url .. "&scope=" .. conf.scope
-    -- end
-    
-    -- return ngx.redirect(oauth_authorize, ngx.HTTP_PERMANENT_REDIRECT)
+
+  if (conf.redirect_to_unauthorised) then
     oidc_error = {status = ngx.HTTP_UNAUTHORIZED, message = 'Unauthorized'}
     return kong.response.exit(oidc_error.status, { message = oidc_error.message })
-    -- return ngx.redirect(oauth_authorize);
+  else
+    -- Redirect to the /oauth endpoint
+    local oauth_authorize = nil
+    if(conf.pf_idp_adapter_id == "") then --Standard Auth URL(Something other than ping)
+       oauth_authorize = conf.authorize_url .. "?response_type=code&client_id=" .. conf.client_id .. "&redirect_uri=" .. callback_url .. "&scope=" .. conf.scope
+    else --Ping Federate Auth URL
+         oauth_authorize = conf.authorize_url .. "?pfidpadapterid=" .. conf.pf_idp_adapter_id .. "&response_type=code&client_id=" .. conf.client_id .. "&redirect_uri=" .. callback_url .. "&scope=" .. conf.scope
+    end
+    
+    return ngx.redirect(oauth_authorize)
+  end
 end
 
 function encode_token(token, conf)

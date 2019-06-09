@@ -35,6 +35,7 @@ return {
     realm = {type = "string", default = ""},
     allowed_roles = {type = "array", default = {}},
     email_key = {type = "string", default = ""},
-    user_info_cache_enabled = {type = "boolean", default = false}
+    user_info_cache_enabled = {type = "boolean", default = false},
+    redirect_to_unauthorised = {type = "boolean", default = false}
   }
 }

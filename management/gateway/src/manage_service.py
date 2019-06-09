@@ -91,9 +91,9 @@ def _get_service_oidc_payload(service_name, realm, client_id,redirect_unauth=Non
     }
 
     if redirect_unauth: 
-        result['config.redirect_to_unauthorised'] = 'True'
+        result['config.redirect_to_unauthorised'] = 'true'
     else 
-        result['config.redirect_to_unauthorised'] = 'False'
+        result['config.redirect_to_unauthorised'] = 'false'
     return result
 
 
