@@ -19,7 +19,8 @@ from settings import (
     KC_MASTER_REALM,
     KEYCLOAK_FLORA_CLIENT,
     KEYCLOAK_KONG_CLIENT,
-    PUBLIC_REALM
+    PUBLIC_REALM,
+    LOGIN_THEME
 )
 
 
@@ -55,7 +56,6 @@ def create_realm(realm, description=None):
     config = {
         'realm': realm,
         'displayName': desc,
-        'loginTheme': 'flora',
         'enabled': True,
         'roles': {
             'realm': [
@@ -70,6 +70,9 @@ def create_realm(realm, description=None):
             ]
         }
     }
+
+    if LOGIN_THEME:
+        config['loginTheme'] = LOGIN_THEME
 
     keycloak_admin.create_realm(config, skip_exists=True)
     print(f'    + Added realm {realm} >> keycloak')
