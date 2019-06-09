@@ -12,7 +12,6 @@ from requests.exceptions import HTTPError
 from helpers import request, load_json_file
 from settings import (
     BASE_HOST,
-    DOMAIN,
     KONG_JWT_PLUGIN,
     BASE_DOMAIN,
 
@@ -33,7 +32,7 @@ EPT_OIDC = 'oidc'
 EPT_JWT = 'jwt'
 EPT_PUBLIC = 'public'
 
-def _get_service_jwt_validate_payload(service_name, realm, client_id):
+def _get_service_jwt_validate_payload(service_name, realm):
     KEYCLOAK_URL = f'{BASE_HOST}/keycloak/auth/realms'
     return {
         'name': KONG_JWT_PLUGIN,
@@ -71,7 +70,7 @@ def _get_service_oidc_payload(service_name, realm, client_id,redirect_unauth=Non
         raise RuntimeError(f'Unexpected error, do the realm and the client exist?  {str(e)}')
 
     # OIDC plugin settings (same for all endpoints)
-    result {
+    result = {
         'name': KONG_OIDC_PLUGIN,
 
         'config.client_id': client_id,
@@ -91,8 +90,10 @@ def _get_service_oidc_payload(service_name, realm, client_id,redirect_unauth=Non
     }
 
     if redirect_unauth: 
+        print(f'Setting config.redirect_to_unauthorised to true')
         result['config.redirect_to_unauthorised'] = 'true'
-    else 
+    else:
+        print(f'Setting config.redirect_to_unauthorised to false')
         result['config.redirect_to_unauthorised'] = 'false'
     return result
 
@@ -165,7 +166,7 @@ def add_service(config, realm, oidc_client):
                         data=_oidc_config,
                     )
 
-                if ep_type == EPT_JWT
+                if ep_type == EPT_JWT:
                     ## Register also the jwt plugin.
                     request(
                         method='post',

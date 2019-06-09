@@ -8,7 +8,7 @@ def get_env(name, default=None):
 DEBUG = bool(get_env('DEBUG'))
 
 BASE_HOST = get_env('BASE_HOST')  # External URL for host
-DOMAIN = get_env('BASE_DOMAIN')
+BASE_DOMAIN = get_env('BASE_DOMAIN')
 
 
 SERVICES_PATH = '/code/service'
