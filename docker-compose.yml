@@ -40,7 +40,7 @@ services:
 
   kong:
     container_name: kong
-    build: ./api-auth/kong
+    build: ./provisioning/kong
     environment:
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
@@ -82,21 +82,8 @@ services:
       - "floramedia.local:127.0.0.1"
     command: ["kong", "start"]
 
-  konga-database:
-    image: mongo:4.1.5
-    container_name: konga-database
-    volumes:
-      - konga_data:/data/db
-    ports:
-      - 27017:27017
-    healthcheck:
-      test: echo 'db.stats().ok' | mongo localhost:27017/konga --quiet
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
   keycloak:
-    build: ./api-auth/keycloak
+    build: ./provisioning/keycloak
     environment:
       DB_VENDOR: POSTGRES
       DB_ADDR: db
@@ -116,30 +103,13 @@ services:
       - 8080:8080
     networks:
       - internal
-  konga:
-    build: ./management/dashboard/konga
-    container_name: konga
-    depends_on:
-      konga-database:
-        condition: service_healthy
-    volumes:
-      - ./management/dashboard/konga/user_seed.js:/app/user_seed.js:ro
-    ports:
-      - 1337:1337
-    environment:
-      DB_ADAPTER: mongo
-      DB_DATABASE: konga
-      DB_HOST: konga-database
-      KONGA_SEED_USER_DATA_SOURCE_FILE: /app/user_seed.js
-      NODE_ENV: production
-    restart: on-failure
-
+  
   # ---------------------------------
   # Auth builder Container
   # ---------------------------------
 
   auth:
-    build: ./management/gateway
+    build: ./provisioning/gateway
     environment:
       KEYCLOAK_GLOBAL_ADMIN: ${KEYCLOAK_GLOBAL_ADMIN}
       KEYCLOAK_GLOBAL_PASSWORD: ${KEYCLOAK_GLOBAL_PASSWORD}
@@ -149,11 +119,7 @@ services:
       PLATFORM_NAME: ${PLATFORM_NAME}
       KEYCLOAK_INTERNAL: ${KEYCLOAK_INTERNAL}
       KONG_INTERNAL: ${KONG_INTERNAL}
-      MINIO_INTERNAL: ${MINIO_INTERNAL}
       KONGA_INTERNAL: ${KONGA_INTERNAL}
-    volumes:
-      - ./api-auth/service:/code/service
-      - ./api-auth/solution:/code/solution
     command: help
     networks:
       - internal

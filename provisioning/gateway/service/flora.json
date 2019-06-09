@@ -1,0 +1,28 @@
+{
+    "name": "flora",
+    "host": "http://demo-service:3013",
+    "oidc_endpoints": [
+      {
+        "name": "base",
+        "url": "/",
+        "strip_path": "true",
+        "redirect_to_unauthorised": "true"
+      }
+    ],
+    "jwt_endpoints": [
+        {
+            "name": "base",
+            "url": "/",
+            "strip_path": "true",
+            "issuer": ""
+          }
+    ],
+    "public_endpoints": [
+      {
+        "name": "public",
+        "url": "/public",
+        "strip_path": "true"
+      }
+    ]
+  }
+  

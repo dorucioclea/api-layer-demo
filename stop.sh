@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 
-#### If this says command not found run `chmod u+x ./scripts/cleanup.sh` - adjust path if you're not in the parent directory.
+#### If this says command not found run `chmod u+x ./provisioning/scripts/cleanup.sh` - adjust path if you're not in the parent directory.
 LINE="__________________________________________________________________"
 
 echo "${LINE} Docker-compose Stopping services"
