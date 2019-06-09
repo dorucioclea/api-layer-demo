@@ -11,7 +11,7 @@
     ],
     "jwt_endpoints": [
         {
-            "jwtbase": "base",
+            "name": "jwtbase",
             "url": "/",
             "strip_path": "true",
             "issuer": ""
