@@ -1,8 +1,6 @@
 {
-  "name": "flora",
+  "name": "demo",
   "services": [
-    "kernel",
-    "ui",
-    "odk"
+    "demo"
   ]
 }
