@@ -36,7 +36,7 @@ docker-compose pull db auth
 echo ""
 
 start_db
-start_konga_db
+# start_konga_db
 
 # Initialize the kong & keycloak databases in the postgres instance
 
@@ -47,7 +47,7 @@ rebuild_database keycloak keycloak ${KEYCLOAK_PG_PASSWORD}
 echo ""
 
 echo "${LINE} Building custom docker images..."
-docker-compose build --no-cache --force-rm --pull keycloak kong konga
+docker-compose build --no-cache --force-rm --pull keycloak kong # konga
 $DC_AUTH       build --no-cache --force-rm --pull auth
 echo ""
 
@@ -65,13 +65,15 @@ docker-compose run kong kong migrations up
 echo ""
 start_kong
 
-echo "${LINE} Preparing kong..."
+echo "${LINE} Preparing konga..."
 echo ""
-start_konga
+# start_konga
 
-echo "${LINE} Registering konga in kong..."
-$AUTH_CMD setup_konga
-echo ""
+# echo "${LINE} Registering konga in kong..."
+# echo "${LINE} looking if we have the KONGA_INTERNAL value";
+# echo ${KONGA_INTERNAL}
+# $AUTH_CMD setup_konga
+# echo ""
 
 echo "${LINE} Registering keycloak in kong..."
 $AUTH_CMD setup_auth
@@ -86,13 +88,13 @@ echo "${LINE} Creating initial realms in keycloak..."
 REALMS=( dev ) ##DORU: Simplify only for dev environment. put prod back in.
 for REALM in "${REALMS[@]}"; do
     $AUTH_CMD add_realm                 $REALM
-    $AUTH_CMD add_confidential_client   $REALM
+    $AUTH_CMD add_confidential_client   $REALM ${KEYCLOAK_KONG_CLIENT}
     $AUTH_CMD add_user                  $REALM \
-                                        $KEYCLOAK_INITIAL_USER_USERNAME \
-                                        $KEYCLOAK_INITIAL_USER_PASSWORD            
+                                        ${KEYCLOAK_INITIAL_USER_USERNAME} \
+                                        ${KEYCLOAK_INITIAL_USER_PASSWORD} \
 
     echo "${LINE} Adding [flora] solution in kong..."
-    $AUTH_CMD add_solution flora $REALM
+    $AUTH_CMD add_solution flora $REALM ${KEYCLOAK_KONG_CLIENT}
 done
 echo ""
 
