@@ -5,8 +5,16 @@
       {
         "name": "base",
         "url": "/",
-        "strip_path": "true"
+        "strip_path": "true",
+        "redirect_to_unauthorised": "true"
       }
+    ],
+    "jwt_endpoints": [
+        {
+            "jwtbase": "base",
+            "url": "/",
+            "strip_path": "true"
+          }
     ],
     "public_endpoints": [
       {
