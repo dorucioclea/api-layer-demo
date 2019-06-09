@@ -1,6 +1,17 @@
-#!/usr/bin/env python
+import sys
+
 from helpers import request
-from settings import BASE_HOST, KONG_URL, KEYCLOAK_INTERNAL, MINIO_INTERNAL, KONGA_INTERNAL
+from settings import BASE_HOST, KONG_URL
+
+DATA_CORS = {
+    'name': 'cors',
+    'config.credentials': 'true',
+    'config.exposed_headers': 'Authorization',
+    'config.headers': 'Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, Authorization',
+    'config.max_age': 3600,
+    'config.methods': ['HEAD', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    'config.origins': f'{BASE_HOST}/*',
+}
 
 
 def register_app(name, url):
@@ -15,22 +26,13 @@ def register_app(name, url):
 
     # ADD CORS Plugin to Kong for whole domain CORS
     PLUGIN_URL = f'{KONG_URL}/services/{name}/plugins'
-    data_cors = {
-        'name': 'cors',
-        'config.credentials': 'true',
-        'config.exposed_headers': 'Authorization',
-        'config.headers': 'Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, Authorization',
-        'config.max_age': 3600,
-        'config.methods': ['HEAD', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-        'config.origins': f'{BASE_HOST}/*',
-    }
-    request(method='post', url=PLUGIN_URL, data=data_cors)
+    request(method='post', url=PLUGIN_URL, data=DATA_CORS)
 
     # Routes
     # Add a route which we will NOT protect
     ROUTE_URL = f'{KONG_URL}/services/{name}/routes'
     data_route = {
-        'paths' : [f'/{name}'],
+        'paths': [f'/{name}'],
         'strip_path': 'false',
         'preserve_host': 'false',  # This is keycloak specific.
     }
@@ -40,14 +42,11 @@ def register_app(name, url):
 
 
 if __name__ == '__main__':
-    # add keycloak and minio
-    services = [
-        ('keycloak', KEYCLOAK_INTERNAL),
-        ('minio', MINIO_INTERNAL),
-        ('konga', KONGA_INTERNAL)
-    ]
+    # add service
+    name = sys.argv[1]
+    url = sys.argv[2]
 
-    for name, url in services:
-        print(f'Exposing service "{name}" @ {url}')
-        register_app(name, url)
-        print(f'Service "{name}" @ {url} now being served by kong @ {BASE_HOST}/{name}')
+    print(f'Exposing service "{name}" @ {url}')
+    _id = register_app(name, url)
+    print(f'Service "{name}" @ {url} now being served by kong @ {BASE_HOST}/{name}')
+    print(f'Service id: {_id}')
