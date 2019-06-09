@@ -25,8 +25,8 @@ In order to reliably implement multitenancy in a variety of solutions with flexi
    - Administrative KC user is : `admin`:`password`
    - This user can modify all realms (dev, prod, master) from the master realm.
  - Start the demo service will be running: you can watch logs at `docker-compose logs -f demo-service`
- - Visit http://floramedia.local/dev/demo/public/my-page to access an unprotected page
- - Visit http://floramedia.local/dev/demo/protected/user to access a protected page
+ - Visit http://floramedia.local/dev/flora/public/my-page to access an unprotected page
+ - Visit http://floramedia.local/dev/flora/protected/user to access a protected page
    - User `user`: `password`
    - See that:
      - `{"error": "user lacks one any of the following roles: ['user', 'admin']"}`
@@ -39,14 +39,14 @@ In order to reliably implement multitenancy in a variety of solutions with flexi
    - Select `View All Users`
    - Edit the user with username `user`
    - Under the Role Mappings tab, add the role `user` from `Available Roles`
-   - Refresh the page we were you were trying to access : http://floramedia.local/dev/demo/protected/user
+   - Refresh the page we were you were trying to access : http://floramedia.local/dev/flora/protected/user
 
- - Visit http://floramedia.local/dev/demo/protected/admin to access another protected page
+ - Visit http://floramedia.local/dev/flora/protected/admin to access another protected page
    - Notice that the service returns a 401: `{"error": "user lacks one any of the following roles: ['admin']"}`
    - Adding the role `admin` to the user will allow access. 
 
- - Logout from `user` by visiting: http://floramedia.local/dev/demo/logout
- - Visit the demo service on realm prod: http://floramedia.local/prod/demo/
+ - Logout from `user` by visiting: http://floramedia.local/dev/flora/logout
+ - Visit the demo service on realm prod: http://floramedia.local/prod/flora/
  - This is a different realm, with a different set of users. There is a user named `user` here, but it's not the same one we used earlier.
  
 You can then log in and out of the two realms, and be allowed or denied based on the policy. Changes made it the keycloak administrative interface (like giving `user` the role `admin`) will take up to 60 seconds for the services to pick up, based on the Kong-OIDC plugin caching policy.
