@@ -40,7 +40,7 @@ services:
 
   kong:
     container_name: kong
-    build: ./api-auth/kong
+    build: ./provisioning/kong
     environment:
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
@@ -96,7 +96,7 @@ services:
       retries: 5
 
   keycloak:
-    build: ./api-auth/keycloak
+    build: ./provisioning/keycloak
     environment:
       DB_VENDOR: POSTGRES
       DB_ADDR: db
