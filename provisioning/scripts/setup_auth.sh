@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
-
 provisioning/scripts/generate_env_vars.sh
 source ./provisioning/scripts/setup_functions.sh
 source ./provisioning/scripts/floramedia_functions.sh
@@ -47,10 +46,9 @@ rebuild_database keycloak keycloak ${KEYCLOAK_PG_PASSWORD}
 echo ""
 
 echo "${LINE} Building custom docker images..."
-docker-compose build --no-cache --force-rm --pull keycloak kong # konga
+docker-compose build --no-cache --force-rm --pull keycloak kong konga
 $DC_AUTH       build --no-cache --force-rm --pull auth
 echo ""
-
 
 echo "${LINE} Preparing kong..."
 #
@@ -65,19 +63,18 @@ docker-compose run kong kong migrations up
 echo ""
 start_kong
 
-# echo "${LINE} Preparing konga..."
-# echo ""
-# start_konga
+echo "${LINE} Preparing konga..."
+echo ""
+start_konga
 
-# echo "${LINE} Registering konga in kong..."
-# echo ${KONGA_INTERNAL}
-# $AUTH_CMD setup_konga
-# echo ""
+echo "${LINE} Registering konga in kong..."
+echo ${KONGA_INTERNAL}
+$AUTH_CMD setup_konga
+echo ""
 
 echo "${LINE} Registering keycloak in kong..."
 $AUTH_CMD setup_auth
 echo ""
-
 
 echo "${LINE} Preparing keycloak..."
 start_keycloak

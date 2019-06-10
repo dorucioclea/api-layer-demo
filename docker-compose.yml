@@ -24,6 +24,10 @@ services:
     image: postgres:9.6-alpine
     environment:
       PGUSER: postgres
+      POSTGRESS_DB: kong
+      POSTGRES_USER: kong
+      POSTGRES_PASSWORD: kong
+      POSTGRES_DB: kong
     healthcheck:
       test: pg_isready
       interval: 2s
@@ -73,7 +77,6 @@ services:
       retries: 5
     ports:
       - 80:80
-      # - 8000:8000
       - 8001:8001
       - 8443:8443
     networks:
@@ -81,6 +84,29 @@ services:
     extra_hosts:
       - "floramedia.local:127.0.0.1"
     command: ["kong", "start"]
+
+  konga:
+    build: ./provisioning/dashboard/konga
+    container_name: konga
+    volumes:
+      - ./provisioning/dashboard/konga/user_seed.js:/app/user_seed.js:ro
+      - ${PWD}/.data/konga:/kongadata
+    ports:
+      - 1337:1337
+    environment:
+      DB_ADAPTER: postgres
+      DB_DATABASE: kong
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: kong
+      DB_PASSWORD: kong
+      STORAGE_PATH: /kongadata
+      KONGA_SEED_USER_DATA_SOURCE_FILE: /app/user_seed.js
+      NODE_ENV: development
+    restart: on-failure
+    networks:
+      - internal
+    command: []
 
   keycloak:
     build: ./provisioning/keycloak
