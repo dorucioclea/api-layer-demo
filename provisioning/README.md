@@ -19,7 +19,7 @@ In order to reliably implement multitenancy in a variety of solutions with flexi
 
  - Add `floramedia.local` to your `/etc/hosts` file as an alias to localhost.
  - Run `./provisioning/scripts/setup_auth.sh`
- - Once complete, `run scripts/start.sh` to start services
+ - Once complete, `run ./provisioning/scripts/start.sh` to start services
  - One complete, you can visit http://floramedia.local/keycloak/auth/
    - Administrative KC user is : `admin`:`password`
    - This user can modify all realms (dev, prod, master) from the master realm.
