@@ -51,6 +51,13 @@ def admin_routes(realm, roles):
     content = {'realm': realm, 'roles': roles}
     return render_template('./json.html', content=content)
 
+@app.route(f"/protected/admin/info", methods = ['POST'])
+@require_role(['admin'])
+@get_realm
+def admininfo_routes(realm, roles):
+    content = {'realm': realm, 'roles': roles}
+    return render_template('./json.html', content=content)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=APP_PORT)

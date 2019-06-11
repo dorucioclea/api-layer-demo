@@ -36,8 +36,6 @@ docker-compose pull db auth
 echo ""
 
 start_db
-# start_konga_db
-
 # Initialize the kong & keycloak databases in the postgres instance
 
 # THESE COMMANDS WILL ERASE PREVIOUS DATA!!!
@@ -47,7 +45,7 @@ rebuild_database keycloak keycloak ${KEYCLOAK_PG_PASSWORD}
 echo ""
 
 echo "${LINE} Building custom docker images..."
-docker-compose build --no-cache --force-rm --pull keycloak kong # konga
+docker-compose build --no-cache --force-rm --pull keycloak kong 
 $DC_AUTH       build --no-cache --force-rm --pull auth
 echo ""
 
@@ -64,15 +62,6 @@ docker-compose run kong kong migrations bootstrap 2>/dev/null || true
 docker-compose run kong kong migrations up
 echo ""
 start_kong
-
-# echo "${LINE} Preparing konga..."
-# echo ""
-# start_konga
-
-# echo "${LINE} Registering konga in kong..."
-# echo ${KONGA_INTERNAL}
-# $AUTH_CMD setup_konga
-# echo ""
 
 echo "${LINE} Registering keycloak in kong..."
 $AUTH_CMD setup_auth

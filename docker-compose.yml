@@ -10,10 +10,6 @@ volumes:
   database_data:
     external:
       name: ${PLATFORM_NAME}-database_data
-  konga_data:
-    external:
-      name: ${PLATFORM_NAME}-konga_data
-
 services:
 
   # ---------------------------------
