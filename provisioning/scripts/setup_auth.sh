@@ -35,7 +35,7 @@ docker-compose pull db auth
 echo ""
 
 start_db
-# start_konga_db
+start_konga_db
 
 # Initialize the kong & keycloak databases in the postgres instance
 

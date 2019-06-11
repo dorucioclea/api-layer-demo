@@ -46,7 +46,7 @@ function start_db {
 function start_konga_db {
     echo "${LINE} Starting konga database server..."
     docker-compose up -d db
-    until docker-compose ps -q konga-database >/dev/null; do
+    until docker-compose ps -q db-konga konga-prepare >/dev/null; do
         >&2 echo "Waiting for konga database..."
         sleep 2
     done
@@ -84,7 +84,6 @@ function start_keycloak {
     done
     echo ""
 }
-
 
 # Usage:    rebuild_database <database> <user> <password>
 function rebuild_database {
